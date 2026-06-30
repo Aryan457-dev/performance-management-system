@@ -1,6 +1,11 @@
-class Config:
-    SECRET_KEY = "your-secret-key"
+import os
 
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:@localhost/performance_management"
+class Config:
+    SECRET_KEY = os.environ.get("SECRET_KEY", "your-secret-key")
+
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        "DATABASE_URL",
+        "mysql+pymysql://root:@localhost/performance_management"
+    )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
