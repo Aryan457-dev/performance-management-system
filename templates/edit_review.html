@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Review{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+
+        <div class="card shadow">
+
+            <div class="card-header">
+                <h3>Edit Performance Review</h3>
+            </div>
+
+            <div class="card-body">
+
+                <form method="POST">
+
+                    <div class="mb-3">
+                        <label>Review Title</label>
+                        <input type="text" class="form-control"
+                               name="review_title"
+                               value="{{ review.review_title }}"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Employee</label>
+
+                        <select class="form-select" name="employee_id">
+
+                            {% for employee in employees %}
+
+                            <option value="{{ employee.id }}"
+                            {% if employee.id == review.employee_id %}selected{% endif %}>
+
+                                {{ employee.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Review Date</label>
+
+                        <input
+                        type="date"
+                        class="form-control"
+                        name="review_date"
+                        value="{{ review.review_date }}"
+                        required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label>Review Period</label>
+
+                        <select class="form-select" name="review_period">
+
+                            <option value="Monthly" {% if review.review_period=="Monthly" %}selected{% endif %}>Monthly</option>
+
+                            <option value="Quarterly" {% if review.review_period=="Quarterly" %}selected{% endif %}>Quarterly</option>
+
+                            <option value="Annual" {% if review.review_period=="Annual" %}selected{% endif %}>Annual</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label>Rating</label>
+
+                        <input
+                        type="number"
+                        class="form-control"
+                        name="rating"
+                        min="1"
+                        max="10"
+                        value="{{ review.rating }}"
+                        required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label>Comments</label>
+
+                        <textarea
+                        class="form-control"
+                        name="comments"
+                        rows="4">{{ review.comments }}</textarea>
+
+                    </div>
+
+                    <button class="btn btn-primary">
+                        Update Review
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

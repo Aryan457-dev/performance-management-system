@@ -1,0 +1,16 @@
+body{
+    background:#f8f9fa;
+}
+
+.card{
+    border:none;
+    border-radius:12px;
+}
+
+.table{
+    vertical-align:middle;
+}
+
+.btn{
+    border-radius:8px;
+}

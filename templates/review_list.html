@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block title %}Performance Reviews{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="fw-bold">Performance Reviews</h2>
+        <p class="text-muted">Manage and monitor employee performance reviews.</p>
+    </div>
+
+    {% if current_user.role != "Employee" %}
+    <a href="{{ url_for('review.add_review') }}" class="btn btn-primary">
+        + Add Review
+    </a>
+    {% endif %}
+
+</div>
+
+<!-- Filters -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header bg-white">
+        <h5 class="mb-0">Filters</h5>
+    </div>
+
+    <div class="card-body">
+
+        <form class="row g-3" method="GET">
+
+            <div class="col-md-3">
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search Employee"
+                    name="search">
+            </div>
+
+            <div class="col-md-2">
+
+                <select class="form-select" name="period">
+
+                    <option value="">Review Period</option>
+                    <option>Monthly</option>
+                    <option>Quarterly</option>
+                    <option>Annual</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-2">
+
+                <select class="form-select" name="rating">
+
+                    <option value="">Rating</option>
+
+                    {% for i in range(1,11) %}
+                    <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="col-md-2">
+
+                <input
+                    type="date"
+                    class="form-control"
+                    name="from_date">
+
+            </div>
+
+            <div class="col-md-2">
+
+                <input
+                    type="date"
+                    class="form-control"
+                    name="to_date">
+
+            </div>
+
+            <div class="col-md-1 d-grid">
+
+                <button class="btn btn-dark">
+                    Filter
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Statistics -->
+
+<div class="row mb-4">
+
+    <div class="col-md-3">
+
+        <div class="card border-primary shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h6>Total Reviews</h6>
+
+                <h2>{{ reviews|length }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-success shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h6>Monthly</h6>
+
+                <h2>
+                    {{ reviews|selectattr('review_period','equalto','Monthly')|list|length }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-warning shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h6>Quarterly</h6>
+
+                <h2>
+                    {{ reviews|selectattr('review_period','equalto','Quarterly')|list|length }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-danger shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h6>Annual</h6>
+
+                <h2>
+                    {{ reviews|selectattr('review_period','equalto','Annual')|list|length }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Review Table -->
+
+<div class="card shadow">
+
+    <div class="card-header bg-dark text-white">
+
+        <h5 class="mb-0">Performance Reviews</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Employee</th>
+                        <th>Review</th>
+                        <th>Date</th>
+                        <th>Period</th>
+                        <th>Rating</th>
+                        <th>Comments</th>
+
+                        {% if current_user.role != "Employee" %}
+                        <th>Actions</th>
+                        {% endif %}
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for review in reviews %}
+
+                    <tr>
+
+                        <td>{{ review.employee.name }}</td>
+
+                        <td>{{ review.review_title }}</td>
+
+                        <td>{{ review.review_date }}</td>
+
+                        <td>{{ review.review_period }}</td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                {{ review.rating }}/10
+
+                            </span>
+
+                        </td>
+
+                        <td>{{ review.comments }}</td>
+
+                        {% if current_user.role != "Employee" %}
+
+                        <td>
+
+                            <a href="{{ url_for('review.edit_review', id=review.review_id) }}"
+                               class="btn btn-warning btn-sm">
+
+                                Edit
+
+                            </a>
+
+                            <a href="{{ url_for('review.delete_review', id=review.review_id) }}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Delete this review?')">
+
+                                Delete
+
+                            </a>
+
+                        </td>
+
+                        {% endif %}
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="7" class="text-center">
+
+                            No Reviews Found
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

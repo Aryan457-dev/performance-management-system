@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Add Review
+
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+<div class="col-md-7">
+
+<div class="card shadow">
+
+<div class="card-header">
+
+<h3>Add Performance Review</h3>
+
+</div>
+
+<div class="card-body">
+
+<form method="POST">
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Review Title
+
+</label>
+
+<input
+type="text"
+name="review_title"
+class="form-control"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Employee
+
+</label>
+
+<select
+name="employee_id"
+class="form-select"
+required>
+
+<option value="">Select Employee</option>
+
+{% for employee in employees %}
+
+<option value="{{ employee.id }}">
+
+{{ employee.name }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Review Date
+
+</label>
+
+<input
+type="date"
+name="review_date"
+class="form-control"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Review Period
+
+</label>
+
+<select
+name="review_period"
+class="form-select">
+
+<option>Monthly</option>
+<option>Quarterly</option>
+<option>Annual</option>
+
+</select>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Rating
+
+</label>
+
+<input
+type="number"
+min="1"
+max="10"
+name="rating"
+class="form-control"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Comments
+
+</label>
+
+<textarea
+name="comments"
+class="form-control"
+rows="4"></textarea>
+
+</div>
+
+<button class="btn btn-primary">
+
+Add Review
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

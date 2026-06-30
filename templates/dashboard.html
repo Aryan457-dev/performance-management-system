@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <h2>Welcome, {{ user.name }}</h2>
+
+        <hr>
+
+        <div class="mb-4">
+
+            <a href="{{ url_for('review.add_review') }}" class="btn btn-primary">
+                Add Review
+            </a>
+
+            <a href="{{ url_for('review.review_list') }}" class="btn btn-success ms-2">
+                View Reviews
+            </a>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+
+                <div class="card border-primary">
+
+                    <div class="card-body">
+
+                        <h5>Role</h5>
+
+                        <h3>{{ user.role }}</h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card border-success">
+
+                    <div class="card-body">
+
+                        <h5>Email</h5>
+
+                        <p>{{ user.email }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card border-warning">
+
+                    <div class="card-body">
+
+                        <h5>Department</h5>
+
+                        <p>{{ user.department }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
